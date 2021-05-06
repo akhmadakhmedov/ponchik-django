@@ -3,30 +3,27 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
 
 class MyAccountManager(BaseUserManager):
-    def create_user(self, name, surname, email, username, phone_number, password=None):
+    def create_user(self, name, surname, email,  phone_number, password):
         if not phone_number:
             raise ValueError('User must have a phone number')
-        if not username:
-            raise ValueError('User must have a username')
+
         user = self.model(
-                username = username,
                 name = name,
-                email = email,
                 surname = surname,
+                email = email,
                 phone_number = phone_number,
             )
         user.set_password(password)
         user.save(using = self.db)
         return user
     
-    def create_superuser(self, name, surname, email, phone_number, username, password):
+    def create_superuser(self, name, surname, email, phone_number,  password):
         user = self.create_user(
+            name = name,
+            surname = surname,
             email = self.normalize_email(email),
             phone_number = phone_number,
-            username = username,
             password = password,
-            name = name,
-            surname = surname
         )
         user.is_admin = True
         user.is_active = True
@@ -39,19 +36,18 @@ class MyAccountManager(BaseUserManager):
 class Account(AbstractBaseUser):
     name            = models.CharField(max_length=20)
     surname         = models.CharField(max_length=20)
-    username        = models.CharField(max_length=30, unique=True)
-    phone_number    = models.CharField(max_length=14, unique=True)
     email           = models.EmailField(max_length=100, unique=True)
+    phone_number    = models.CharField(max_length=14, unique=True)
 
     date_joined     = models.DateTimeField(auto_now_add=True)
     last_login      = models.DateTimeField(auto_now_add=True)
     is_admin        = models.BooleanField(default=False)
     is_staff        = models.BooleanField(default=False)
-    is_active       = models.BooleanField(default=False)
+    is_active       = models.BooleanField(default=True)
     is_superadmin   = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'phone_number'
-    REQUIRED_FIELDS = ['username', 'name', 'surname', 'email']
+    REQUIRED_FIELDS = [ 'name', 'surname', 'email']
 
     objects = MyAccountManager()
 

@@ -3,7 +3,7 @@ from .models import Account
 from django.contrib.auth.admin import UserAdmin
 
 class AccountAdmin(UserAdmin):
-    list_display = ('phone_number', 'email', 'name', 'surname', 'username', 'date_joined', 'last_login')
+    list_display = ('phone_number', 'email', 'name', 'surname','date_joined', 'last_login')
     list_display_links = ('phone_number', 'email', 'name')
     readonly_fields = ('date_joined', 'last_login')
     ordering = ('-date_joined',)
