@@ -3,25 +3,23 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
 
 class MyAccountManager(BaseUserManager):
-    def create_user(self, name, surname, email,  phone_number, password):
+    def create_user(self, name, surname, phone_number, password):
         if not phone_number:
             raise ValueError('User must have a phone number')
 
         user = self.model(
                 name = name,
                 surname = surname,
-                email = email,
                 phone_number = phone_number,
             )
         user.set_password(password)
         user.save(using = self.db)
         return user
     
-    def create_superuser(self, name, surname, email, phone_number,  password):
+    def create_superuser(self, name, surname, phone_number,  password):
         user = self.create_user(
             name = name,
             surname = surname,
-            email = self.normalize_email(email),
             phone_number = phone_number,
             password = password,
         )
@@ -36,7 +34,7 @@ class MyAccountManager(BaseUserManager):
 class Account(AbstractBaseUser):
     name            = models.CharField(max_length=20)
     surname         = models.CharField(max_length=20)
-    email           = models.EmailField(max_length=100, unique=True)
+    email           = models.EmailField(max_length=100, unique=True, blank=True, null=True)
     phone_number    = models.CharField(max_length=14, unique=True)
 
     date_joined     = models.DateTimeField(auto_now_add=True)
@@ -47,7 +45,7 @@ class Account(AbstractBaseUser):
     is_superadmin   = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'phone_number'
-    REQUIRED_FIELDS = [ 'name', 'surname', 'email']
+    REQUIRED_FIELDS = [ 'name', 'surname']
 
     objects = MyAccountManager()
 

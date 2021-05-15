@@ -14,10 +14,9 @@ def register(request):
         if form.is_valid():
             name = form.cleaned_data['name']
             surname = form.cleaned_data['surname']
-            email = form.cleaned_data['email']
             phone_number = form.cleaned_data['phone_number']
             password = form.cleaned_data['password']
-            user = Account.objects.create_user(name=name, surname=surname, email=email, phone_number=phone_number, password=password)
+            user = Account.objects.create_user(name=name, surname=surname, phone_number=phone_number, password=password)
             user.save()
             messages.success(request, 'Registration completed successfully, Please Log in')
             return redirect('login')

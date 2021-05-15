@@ -13,7 +13,7 @@
 <div class="card">
     <div class='card-body'>
         <h4 class='card-title mb-4'>Billing Address</h4>
-        <form action="" method='POST'>
+        <form action="{% url 'place_order' %}" method='POST'>
         {% csrf_token %}
             <div class="form-row">
                 <div class='col form-group'>
@@ -37,26 +37,6 @@
             </div>
             <div class="form-row">
                 <div class='col form-group'>
-                    <label for="">State</label>
-                    <select class='form-control' aria-label="State">
-                        <option selected>Please choose your state</option>
-                        <option value="1">Chui</option>
-                        <option value="2">Osh</option>
-                        <option value="3">Batken</option>
-                    </select>
-                </div>
-                <div class='col form-group'>
-                    <label for="">City</label>
-                    <select class='form-control' aria-label="City">
-                        <option selected>Please choose your city</option>
-                        <option value="1">Bishkek</option>
-                        <option value="2">Osh</option>
-                        <option value="3">Kara Suu</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class='col form-group'>
                     <label for="">Address Line 1</label>
                     <input type="text" name='address_line_1' class='form-control' required>
                 </div>
@@ -65,6 +45,17 @@
                     <input type="text" name='address_line_2' class='form-control'>
                 </div>
             </div>
+            <div class="form-row">
+                <div class='col form-group'>
+                    <label for="">State</label>
+                    <input type='text' name='state' class='form-control' required>
+                </div>
+                <div class='col form-group'>
+                    <label for="">City</label>
+                    <input type='text' name='city' class='form-control' required>
+                </div>
+            </div>
+            
             <div class="form-row">
                 <div class='col form-group'>
                     <label for="">Order Note</label>
